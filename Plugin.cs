@@ -47,7 +47,7 @@ public class Plugin : BaseUnityPlugin {
         }
     }
 
-    //private static string GetFullPath(UnityEngine.Transform obj) {
+    //private static string GetFullPath(UnityEngine.Transform obj) { /// test
     //    string FullPath = "";
     //    while (obj != null) {
     //        FullPath = "\\" + obj.name + FullPath;
