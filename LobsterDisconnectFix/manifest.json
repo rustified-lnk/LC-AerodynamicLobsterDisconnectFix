@@ -1,0 +1,7 @@
+{
+    "name": "AerodynamicLobsterDisconnectFix",
+    "version_number": "1.0.0",
+    "website_url": "https://github.com/rustified-lnk/LC-AerodynamicLobsterDisconnectFix",
+    "description": "v73 disconnection fix with aerodynamic lobster.",
+    "dependencies": []
+}
