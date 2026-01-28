@@ -56,31 +56,6 @@ public class Plugin : BaseUnityPlugin {
     //    return FullPath;
     //}
 
-    private static Sprite LoadSpriteFromEmbeddedResource(string resourceName, string firstName = "LobsterDisconnectFix.Embedded") {
-        try {
-            Assembly assembly = Assembly.GetExecutingAssembly();
-            using (Stream stream = assembly.GetManifestResourceStream(firstName + "." + resourceName)) {
-                if (stream == null) {
-                    Logger.LogError($"Can't find embedded resource: {resourceName}");
-                    foreach (string res in assembly.GetManifestResourceNames()) Logger.LogInfo($"Available resource: {res}");
-                    return null;
-                }
-
-                byte[] data = new byte[stream.Length];
-                stream.Read(data, 0, (int)stream.Length);
-
-                Texture2D texture = new Texture2D(2, 2);
-                if (texture.LoadImage(data)) {
-                    texture.filterMode = FilterMode.Bilinear;
-                    return Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
-                }
-            }
-        } catch (System.Exception e) {
-            Logger.LogError($"Error loading sprite: {e.Message}");
-        }
-        return null;
-    }
-
     private static byte[] GetResourceBytes(string resourceName, string firstName = "LobsterDisconnectFix.Embedded") {
         try {
             Assembly assembly = Assembly.GetExecutingAssembly();
@@ -94,6 +69,21 @@ public class Plugin : BaseUnityPlugin {
                 return data;
             }
         } catch (Exception e) { Logger.LogError(e); return null; }
+    }
+
+    private static Sprite LoadSpriteFromEmbeddedResource(string resourceName, string firstName = "LobsterDisconnectFix.Embedded") {
+        try {
+            byte[] data = GetResourceBytes(resourceName, firstName);
+
+            Texture2D texture = new Texture2D(2, 2);
+            if (texture.LoadImage(data)) {
+                texture.filterMode = FilterMode.Bilinear;
+                return Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+            }
+        } catch (System.Exception e) {
+            Logger.LogError($"Error loading sprite: {e.Message}");
+        }
+        return null;
     }
 
     [HarmonyPatch(typeof(MenuManager))]
